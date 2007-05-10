@@ -128,9 +128,30 @@ METHODS
     The "as_string" method converts the date to the default string, which at
     present is the same as that returned by the "ymd" method above.
 
+    This string matches the ISO 8601 standard for the encoding of a date as
+    a string.
+
+  from_string
+    The "from_string" method creates a new Date::Tiny object from a string.
+
+    The string is expected to be a "yyyy-mm-dd" ISO 8601 time string.
+
+      my $almost_christmas = Date::Tiny->from_string( '2006-12-23' );
+
+    Returns a new Date::Tiny object, or throws an exception on error.
+
   DateTime
-    The "DateTime" method is used to inflate the Date::Time object into a
-    full DateTime object.
+    The "DateTime" method is used to create a DateTime object that is
+    equivalent to the Date::Tiny object, for use in comversions and
+    caluculations.
+
+    As mentioned earlier, the object will be set to the 'C' locate, and the
+    'floating' time zone.
+
+    If installed, the DateTime module will be loaded automatically.
+
+    Returns a DateTime object, or throws an exception if DateTime is not
+    installed on the current host.
 
 SUPPORT
     Bugs should be reported via the CPAN bug tracker at

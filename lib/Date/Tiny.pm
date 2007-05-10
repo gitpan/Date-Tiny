@@ -105,7 +105,7 @@ use overload 'ne'   => sub { "$_[0]" ne "$_[1]" };
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '0.01';
+	$VERSION = '0.02';
 }
 
 
@@ -212,7 +212,7 @@ format, which returns in the form "2006-04-12".
 =cut
 
 sub ymd {
-	sprintf( "%04u%02u%02u", $_[0]->year, $_[0]->month, $_[0]->day );
+	sprintf( "%04u-%02u-%02u", $_[0]->year, $_[0]->month, $_[0]->day );
 }
 
 
@@ -229,6 +229,9 @@ sub ymd {
 The C<as_string> method converts the date to the default string, which
 at present is the same as that returned by the C<ymd> method above.
 
+This string matches the ISO 8601 standard for the encoding of a date as
+a string.
+
 =cut
 
 sub as_string {
@@ -237,14 +240,52 @@ sub as_string {
 
 =pod
 
-=head2 DateTime
+=head2 from_string
 
-The C<DateTime> method is used to inflate the B<Date::Time> object into a
-full L<DateTime> object.
+The C<from_string> method creates a new B<Date::Tiny> object from a string.
+
+The string is expected to be a "yyyy-mm-dd" ISO 8601 time string.
+
+  my $almost_christmas = Date::Tiny->from_string( '2006-12-23' );
+
+Returns a new B<Date::Tiny> object, or throws an exception on error.
 
 =cut
 
-# Convert to "real" DateTime object
+sub from_string {
+	my $class  = shift;
+	my $string = shift;
+	unless ( defined $string and ! ref $string ) {
+		Carp::croak("Did not provide a string to from_string");
+	}
+	unless ( $string =~ /^(\d\d\d\d)-(\d\d)-(\d\d)$/ ) {
+		Carp::croak("Invalid time format (does not match ISO 8601 yyyy-mm-dd)");
+	}
+	$class->new(
+		year  => $1 + 0,
+		month => $2 + 0,
+		day   => $3 + 0,
+		);
+}
+
+=pod
+
+=head2 DateTime
+
+The C<DateTime> method is used to create a L<DateTime> object
+that is equivalent to the B<Date::Tiny> object, for use in
+comversions and caluculations.
+
+As mentioned earlier, the object will be set to the 'C' locate,
+and the 'floating' time zone.
+
+If installed, the L<DateTime> module will be loaded automatically.
+
+Returns a L<DateTime> object, or throws an exception if L<DateTime>
+is not installed on the current host.
+
+=cut
+
 sub DateTime {
 	require DateTime;
 	my $self = shift;
