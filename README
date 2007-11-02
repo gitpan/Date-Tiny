@@ -1,5 +1,5 @@
 NAME
-    Date::Tiny - A date object, with as little code as possible
+    Date::Tiny - A date object with as little code as possible
 
 SYNOPSIS
       # Create a date manually
@@ -162,13 +162,13 @@ SUPPORT
     author.
 
 AUTHOR
-    Adam Kennedy <cpan@ali.as>
+    Adam Kennedy <adamk@cpan.org>
 
 SEE ALSO
     DateTime, DateTime::Tiny, Time::Tiny, Config::Tiny, ali.as
 
 COPYRIGHT
-    Copyright 2006 Adam Kennedy.
+    Copyright 2006 - 2007 Adam Kennedy.
 
     This program is free software; you can redistribute it and/or modify it
     under the same terms as Perl itself.
